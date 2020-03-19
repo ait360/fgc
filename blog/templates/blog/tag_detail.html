@@ -1,0 +1,21 @@
+{% extends parent_template|default:"blog/base_blog.html" %}
+
+{% block title %}
+{{ block.super }} - Tag {{ tag.name|title }}
+{% endblock %}
+
+
+{% block content %}
+<h2>{{ tag.name|title }}</h2>
+<ul>
+    <li><button type="button">
+        <a href="{{ tag.get_update_url }}">Edit Tag</a>
+    </button></li>
+    <li><button type="button">
+        <a href="{{ tag.get_delete_url }}">Delete Tag</a>
+    </button></li>
+</ul>
+
+<p>{{ tag.name }}</p>
+
+{% endblock %}

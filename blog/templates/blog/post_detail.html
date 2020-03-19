@@ -1,0 +1,70 @@
+{% extends parent_template|default:"blog/base_blog.html" %}
+
+{% block title %}
+{{ block.super }} - {{ post.title|title }}
+{% endblock %}
+
+
+{% block content %}
+<article>
+    <header>
+        <h2>{{ post.title|title }}</h2>
+        {% if post.post_title_picture %}
+            <img src="{{ post.post_title_picture.url }}" />
+        {% endif %}
+        <p>Written on
+        <time datetime="{{ post.pub_date|date:"d-m-Y" }}">
+            {{ post.pub_date|date:"l, F j, Y" }}
+        </time>
+            by
+                {% for author in post.authors.all %}
+                <ul>
+                    <li><a href="{{ author.profile.get_absolute_url }}">
+                        {{ author.profile.first_name }} {{ author.profile.last_name }}
+                    </a> </li>
+                </ul>
+                {% endfor %}
+        {# if post.modified_date.date > post.pub_date.date and post.modified_date.time != post.pub_date.time #}
+        {% ifchanged post.modified_date.date and post.modified_date.time %}
+            modified on
+            <time datetime="{{ post.modified_date|date:"d-m-Y" }}">
+                {{ post.modified_date|date:"l, F j, Y" }}
+            </time>
+        {% endifchanged %}
+        </p>
+        <ul>
+            <li>
+                <button type="button">
+                    <a href="{{ post.get_update_url }}">Edit Post</a>
+                </button>
+            </li>
+            <li>
+                <button type="button">
+                    <a href="{{ post.get_delete_url }}">Delete Post</a>
+                </button></li>
+        </ul>
+    </header>
+    <div>{{ post.body|safe|linebreaks }}</div>
+</article>
+    <div>
+        {% if post.taggit.all %}
+    <section>
+        <h3>Tag{{ post.taggit.count|pluralize }}</h3>
+
+            {% for tag in post.taggit.all %}
+                <ul>
+                    <li>
+
+                        <a href="#}">
+                            {{ tag }}
+                        </a>
+                    </li>
+                </ul>
+           {% endfor %}
+
+    </section>
+    {% endif %}
+    </div>
+
+
+{% endblock %}

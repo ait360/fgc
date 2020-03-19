@@ -1,0 +1,21 @@
+{% extends parent_template|default:"blog/base_blog.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{{ block.super }} - Delete Tag
+{% endblock %}
+
+
+{% block content %}
+<div>
+    <div>
+        <form action="{{ tag.get_delete_url }}" method="post">
+            {% csrf_token %}
+            <p>Are you sure you want to delete tag {{ tag.name }}?</p>
+            <button type="button"><a href="{{ tag.get_absolute_url }}">Cancel</a></button>
+            <button type="submit">Delete Tag</button>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

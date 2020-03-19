@@ -1,0 +1,67 @@
+{% extends parent_template|default:"blog/base_blog.html" %}
+
+{% block title %}
+{{ block.super }} - Blog
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'blog_post_urls:blog_post_create' %}">Write a New Blog Post</a>
+
+{% for post in post_list %}
+    <article>
+        <header>
+            <h2><a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a> </h2>
+        </header>
+        <ul>
+            <li>
+                <button type="button">
+                    <a href="{{ post.get_update_url }}">Edit Post</a>
+                </button>
+            </li>
+            <li>
+                <button type="button">
+                    <a href="{{ post.get_delete_url }}">Delete Post</a>
+                </button></li>
+        </ul>
+        Written on:
+        <time datetime="{{ post.pub_date|date:"d-m-Y" }}">
+            {{ post.pub_date|date:"l, F j, Y" }}
+        </time>
+        by
+        {% for author in post.authors.all %}
+            <ul>
+                <li><a href="{{ author.profile.get_absolute_url }}">
+                    {{ author.profile.first_name }} {{ author.profile.last_name }}
+                </a> </li>
+            </ul>
+        {% endfor %}
+        <p>{{ post.body|safe|truncatewords:10 }}</p>
+        <p><a href="{{ post.get_absolute_url }}">Read More&hellip;</a> </p>
+    </article>
+{% empty %}
+<p><em>No Blog Post Available</em></p>
+{% endfor %}
+    <div>
+       {% if is_paginated %}
+            <ul>
+                <li>
+                    <a href="{{ first_page_url }}">1</a>
+                </li>
+                {% if has_previous_ellipsis %}
+                    <li>&hellip;</li>
+                {% endif %}
+                {% for page_num, page_url in page_url_list %}
+                    <li>
+                        <a href="{{ page_url }}">{{ page_num }}</a>
+                    </li>
+                {% endfor %}
+                {% if has_next_ellipsis %}
+                    <li>&hellip;</li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{% load crispy_forms_tags %}
+<form action="{% url 'other_urls:login' %}" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">{{ login_button|default:'Log in' }}</button>
+</form>

@@ -1,0 +1,20 @@
+{% extends parent_template|default:"blog/base_blog.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{{ block.super }} - Update {{ tag.name }}
+{% endblock %}
+
+
+{% block content %}
+<div>
+    <div>
+        <form action="{{ tag.get_update_url }}" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit">Update Tag</button>
+        </form>
+        <button type="button"><a href="{{ tag.get_absolute_url }}">Cancel</a> </button>
+    </div>
+</div>
+{% endblock %}

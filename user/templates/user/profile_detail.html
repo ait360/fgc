@@ -1,0 +1,15 @@
+{% extends parent_template|default:"user/base_user.html" %}
+
+{% block title %}
+{{ block.super }} -
+{{ profile.user.username }}'s Profile
+{% endblock %}
+
+{% block content %}
+    <h2>About {{ profile.user.get_name }}</h2>
+    {% if profile.user.display_picture %}
+    <img src="{{ profile.user.display_picture.url }}" />
+    {% endif %}
+    {{ profile.bio|default:"No profile"|linebreaks }}
+    <p><a href="{{ profile.get_update_url }}">edit</a> </p>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends parent_template|default:"user/base_user.html" %}
+
+{% block title %}
+{{ block super }} - Disable Account
+{% endblock %}
+
+
+{% block content %}
+<p>Disable your account?</p>
+<p>This cannot be undone.</p>
+<form action="{% url 'other_urls:disable' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">
+        Disable Account
+    </button>
+</form>
+
+{% endblock %}
